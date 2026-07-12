@@ -93,7 +93,7 @@ export function ScanResultView({ scan, onNavigateBack }: ScanResultViewProps) {
       {/* Categories Tabs & Findings Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Category navigation sidebar */}
-        <div className="space-y-2">
+        <div className="flex overflow-x-auto gap-2 pb-3 lg:flex-col lg:space-y-2 lg:overflow-x-visible lg:pb-0 scrollbar-none">
           {Object.values(categories).map((cat) => {
             const isActive = activeCategory === cat.key;
             return (
@@ -103,7 +103,7 @@ export function ScanResultView({ scan, onNavigateBack }: ScanResultViewProps) {
                   setActiveCategory(cat.key as any);
                   setSelectedFindingId(null);
                 }}
-                className={`w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                className={`flex-shrink-0 lg:w-full flex items-center justify-between gap-4 p-3.5 lg:p-4 rounded-xl border text-left transition-all cursor-pointer ${
                   isActive
                     ? "bg-[#22d3ee]/10 border-[#22d3ee]/40 text-[#22d3ee]"
                     : "bg-[#111827] border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white"

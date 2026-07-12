@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Shield, Sun, Moon, LogOut } from "lucide-react";
+import { Shield, Sun, Moon, LogOut, LayoutDashboard, MessageSquare, History, User as UserIcon } from "lucide-react";
 
 // Views
 import { LandingView } from "../components/LandingView";
@@ -16,7 +16,7 @@ import { AppLogo } from "../components/AppLogo";
 // Utility Components
 import { Toast } from "../components/Toast";
 import { api } from "../services/api";
-import { DashboardStats, ScanReport, User } from "../types";
+import type { DashboardStats, ScanReport, User } from "../types";
 
 export default function Home() {
   const [page, setPage] = useState<string>("landing");
@@ -200,19 +200,21 @@ export default function Home() {
         </button>
 
         <div className="flex gap-2 items-center">
-          {links.map((link) => (
-            <button
-              key={link.key}
-              onClick={() => setPage(link.key)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
-                page === link.key
-                  ? "bg-[#22d3ee]/10 border-[#22d3ee]/30 text-[#22d3ee]"
-                  : "bg-transparent border-transparent text-[var(--muted)] hover:text-[var(--text)]"
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
+          <div className="hidden md:flex gap-2 items-center">
+            {links.map((link) => (
+              <button
+                key={link.key}
+                onClick={() => setPage(link.key)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+                  page === link.key
+                    ? "bg-[#22d3ee]/10 border-[#22d3ee]/30 text-[#22d3ee]"
+                    : "bg-transparent border-transparent text-[var(--muted)] hover:text-[var(--text)]"
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
 
           {/* Theme switcher */}
           <button
@@ -255,7 +257,7 @@ export default function Home() {
       </nav>
 
       {/* Main View Router */}
-      <main className="flex-grow flex flex-col justify-start">
+      <main className={`flex-grow flex flex-col justify-start ${user ? "pb-20 md:pb-0" : ""}`}>
         {isScanning ? (
           <div className="flex-grow flex items-center justify-center p-12 animate-fade-in">
             <div className="text-center max-w-sm w-full space-y-6">
@@ -323,6 +325,31 @@ export default function Home() {
           </>
         )}
       </main>
+
+      {/* Mobile Sticky Bottom Navigation */}
+      {user && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-45 bg-[#0b0f19]/95 backdrop-blur-md border-t border-gray-900 h-[64px] flex items-center justify-around px-4 pb-safe shadow-2xl">
+          {links.map((link) => {
+            let Icon = LayoutDashboard;
+            if (link.key === "sentiment") Icon = MessageSquare;
+            if (link.key === "history") Icon = History;
+            if (link.key === "account") Icon = UserIcon;
+            const isActive = page === link.key;
+            return (
+              <button
+                key={link.key}
+                onClick={() => setPage(link.key)}
+                className={`flex flex-col items-center gap-1 bg-transparent border-0 cursor-pointer py-1 ${
+                  isActive ? "text-[#22d3ee]" : "text-gray-500"
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="text-[9px] font-bold tracking-tight">{link.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Global Notifications */}
       {toast && (
