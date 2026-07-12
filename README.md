@@ -6,7 +6,7 @@ The system is split into a **Next.js frontend** (TypeScript, Tailwind CSS v4, Re
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 1. **Multi-Target Telemetry Auditing**:
    - **Google Play Store & iOS App Store Apps**: Analyzes requested permissions, SDK integrations, metadata, and review patterns.
@@ -29,7 +29,7 @@ The system is split into a **Next.js frontend** (TypeScript, Tailwind CSS v4, Re
 
 ---
 
-## 📂 Project Architecture
+## Project Architecture
 
 ```
 /
@@ -58,7 +58,7 @@ The system is split into a **Next.js frontend** (TypeScript, Tailwind CSS v4, Re
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### 1. Locally (Manual Setup)
 
@@ -116,7 +116,7 @@ The frontend will be available at [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## ☁️ Deployment Guide
+## Deployment Guide
 
 ### Frontend (Vercel)
 The Next.js frontend is fully compatible with Vercel deployment:
