@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --accent: #22d3ee;
+    --accent2: #f97316;
+    --accent3: #4ade80;
+    --danger: #f43f5e;
+    --warn: #fbbf24;
+    
+    /* Dark Theme Core Variables */
+    --bg: #030712;
+    --bg2: #0f172a;
+    --surface: #111827;
+    --surface2: #1e293b;
+    --border: #1e3a5f;
+    --text: #f1f5f9;
+    --muted: #64748b;
+    --card: #0f172a;
+  }
+
+  .light-theme {
+    /* Light Theme Core Variables */
+    --bg: #f8fafc;
+    --bg2: #f1f5f9;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #94a3b8;
+    --card: #ffffff;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+}
+
+/* Custom CSS Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom Utilities */
+.animate-fade-up {
+  animation: fadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s ease both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.bg-grid {
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.shimmer-btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 200%;
+  animation: shimmer 3s linear infinite;
+}
+
+.glass-panel {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
