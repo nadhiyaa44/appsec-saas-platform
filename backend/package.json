@@ -2,8 +2,8 @@
   "name": "appsec-backend",
   "version": "1.0.0",
   "engines": {
-  "node": "20.x"
-},
+    "node": "20.x"
+  },
   "description": "Secure cybersecurity scanning SaaS backend",
   "main": "dist/app.js",
   "type": "commonjs",
@@ -30,12 +30,12 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.12.7",
+    "@types/express": "^4.17.25",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.43",
     "prisma": "^5.12.1",
     "tsx": "4.7.2",
-    "typescript": "5.4.5"
+    "typescript": "^5.4.5"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
