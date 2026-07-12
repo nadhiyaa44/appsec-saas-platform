@@ -1,6 +1,9 @@
 {
   "name": "appsec-backend",
   "version": "1.0.0",
+  "engines": {
+  "node": "20.x"
+},
   "description": "Secure cybersecurity scanning SaaS backend",
   "main": "dist/app.js",
   "type": "commonjs",
@@ -32,7 +35,7 @@
     "@types/node": "^20.12.7",
     "prisma": "^5.12.1",
     "tsx": "^4.7.2",
-    "typescript": "^5.4.5"
+    "typescript": "5.4.5"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
