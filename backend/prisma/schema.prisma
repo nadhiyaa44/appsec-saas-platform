@@ -1,0 +1,76 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("Free") // "Free" | "Premium" | "Admin"
+  joinedAt     DateTime @default(now())
+  scans        Scan[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model App {
+  id               String            @id @default(uuid())
+  name             String
+  platform         String            // "Google Play" | "iOS App Store" | "Web Application" | "REST API"
+  url              String            @unique
+  logo             String?
+  bg               String            @default("#334155")
+  scans            Scan[]
+  reviewSentiments ReviewSentiment[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Scan {
+  id           String   @id @default(uuid())
+  appId        String
+  userId       String
+  overallScore Int
+  riskLevel    String   // "LOW" | "MEDIUM" | "HIGH"
+  status       String   @default("COMPLETED") // "PENDING" | "COMPLETED" | "FAILED"
+  app          App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report       Report?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Report {
+  id                 String   @id @default(uuid())
+  scanId             String   @unique
+  scan               Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  aiSummary          String
+  recommendations    String   // JSON string of Recommendations
+  permissionFindings String   // JSON string of findings
+  networkFindings    String   // JSON string of findings
+  privacyFindings    String   // JSON string of findings
+  codeFindings       String   // JSON string of findings
+  createdAt          DateTime @default(now())
+}
+
+model ReviewSentiment {
+  id                 String   @id @default(uuid())
+  appId              String   @unique
+  app                App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+  totalReviews       Int
+  positivePercent    Int
+  negativePercent    Int
+  neutralPercent     Int
+  fakeReviewPercent  Int
+  fraudRiskScore     Int
+  sentimentScore     Int
+  recentReviews      String   // JSON string of reviews list
+  fraudIndicators    String   // JSON string of indicators
+  createdAt          DateTime @default(now())
+}
