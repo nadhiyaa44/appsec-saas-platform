@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
@@ -63,13 +63,14 @@ export async function analyzeTargetWithAI(
   try {
     // Note: The new @google/generative-ai SDK from version 0.21.0 uses GoogleGenAI constructor or simple imports.
     // For standard Gemini API access:
-    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-    const model = ai.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      generationConfig: {
-        responseMimeType: "application/json",
-      },
-    });
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+  },
+});
 
     const prompt = `
       You are a senior full-stack cybersecurity engineer, malware analyst, and AI trust specialist.
