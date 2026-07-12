@@ -43,6 +43,15 @@ const apiLimiter = rateLimit({
 
 app.use("/api/", apiLimiter);
 
+// Root Welcome Endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.json({
+    message: "AppSec Security Threat Intelligence API is operational.",
+    healthCheck: "/api/health",
+    status: "active"
+  });
+});
+
 // Health Check
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({
