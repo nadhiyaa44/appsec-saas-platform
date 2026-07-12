@@ -80,4 +80,9 @@ export const api = {
     });
     return handleResponse(res);
   },
+
+  async getHealth(): Promise<{ status: string }> {
+    const res = await fetch(`${API_URL}/health`, { method: "GET" });
+    return handleResponse(res);
+  }
 };

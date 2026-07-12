@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Shield, AlertTriangle, Eye, EyeOff } from "lucide-react";
 import { api } from "../services/api";
 import { User } from "../types";
@@ -19,6 +19,37 @@ export function AuthView({ onAuthSuccess, onNavigate }: AuthViewProps) {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [backendSpinning, setBackendSpinning] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    let timer: any;
+
+    const checkHealth = async () => {
+      // Show warming message if the server doesn't respond quickly (Render Free Tier sleeping)
+      timer = setTimeout(() => {
+        if (active) setBackendSpinning(true);
+      }, 1200);
+
+      try {
+        await api.getHealth();
+        clearTimeout(timer);
+        if (active) setBackendSpinning(false);
+      } catch (e) {
+        clearTimeout(timer);
+        if (active) {
+          timer = setTimeout(checkHealth, 4000);
+        }
+      }
+    };
+
+    checkHealth();
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +129,17 @@ export function AuthView({ onAuthSuccess, onNavigate }: AuthViewProps) {
         </div>
 
         <div className="bg-[#111827] border border-gray-800 rounded-2xl p-8 shadow-xl">
+          {backendSpinning && (
+            <div className="mb-6 p-4 rounded-xl border border-[#fbbf24]/20 bg-[#fbbf24]/5 flex flex-col gap-2.5 text-xs text-[#fbbf24] animate-pulse">
+              <div className="flex items-center gap-2 font-black uppercase tracking-wider">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                <span>Backend spin-up in progress</span>
+              </div>
+              <p className="text-gray-400 font-sans leading-relaxed">
+                The free-tier backend server goes to sleep after 15 minutes of inactivity. We are spinning it up now. This takes about 45 seconds — please wait.
+              </p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-5">
             {tab === "register" && (
               <div>
